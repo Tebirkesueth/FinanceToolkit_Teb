@@ -195,3 +195,23 @@ def get_dividend_capex_coverage_ratio(
         float | pd.Series: The dividend paid and capex coverage ratio value.
     """
     return cash_flow_from_operations / (capital_expenditure + dividends)
+
+
+def get_capex_to_da_ratio(
+    capital_expenditure: float | pd.Series, depreciation_amortization: float | pd.Series
+) -> pd.Series:
+    """
+    Calculate the capital expenditure to depreciation and amortization ratio, a solvency ratio that
+    measures what is happening with a companies asset base over time. A growing asset base typically means 
+    sustained capex investment larger than depreciation and amortization, while the contrary is true. 
+    A company that does not on average invest more in its business than it is depreciating will often lose
+    productivity with time. 
+
+    Args:
+        capital_expenditure (float or pd.Series): Capital expenditure of the company.
+        depreciation_amortization (float or pd.Series): Depreciation and Amortization of the company. 
+
+    Returns:
+        float | pd.Series: The capital expenditure to D&A ratio value.
+    """
+    return abs(capital_expenditure) / depreciation_amortization

@@ -213,6 +213,21 @@ def get_sga_to_revenue_ratio(sga_expenses: pd.Series, revenue: pd.Series) -> pd.
     return sga_expenses / revenue
 
 
+def get_rnd_to_revenue_ratio(rnd_expenses: pd.Series, revenue: pd.Series) -> pd.Series:
+    """
+    Calculates the research and development expenses to revenue ratio,
+    which measures the R&D expenses relative to the revenue of the company.
+
+    Args:
+        rnd_expenses (float or pd.Series): R&D expenses of the company.
+        revenue (float or pd.Series): Revenue of the company.
+
+    Returns:
+        float | pd.Series: The R&D to revenue ratio.
+    """
+    return rnd_expenses / revenue
+
+
 def get_fixed_asset_turnover(
     net_sales: pd.Series,
     net_fixed_assets_begin: pd.Series,

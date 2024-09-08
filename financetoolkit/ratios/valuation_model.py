@@ -353,19 +353,35 @@ def get_earnings_yield(
     return earnings_per_share / market_price_per_share
 
 
-def get_dividend_payout_ratio(dividends: pd.Series, net_income: pd.Series) -> pd.Series:
+def get_dividend_payout_ratio(dividends: pd.Series, free_cash_flow: pd.Series) -> pd.Series:
     """
-    Calculates the dividend payout ratio, which measures the proportion of net income paid out as
+    Calculates the dividend payout ratio, which measures the proportion of free cash flow paid out as
     dividends to shareholders.
 
     Args:
         dividends (float or pd.Series): Dividends paid by the company.
-        net_income (float or pd.Series): Net income of the company.
+        free_cash_flow (float or pd.Series): Free cash flow of the company.
 
     Returns:
         float | pd.Series: The dividend payout ratio.
     """
-    return abs(dividends) / net_income
+    return abs(dividends) / free_cash_flow
+
+
+def get_total_payout_ratio(dividends: pd.Series, buybacks: pd.Series, free_cash_flow: pd.Series) -> pd.Series:
+    """
+    Calculates the total payout ratio, which measures the proportion of free cash flow paid out as
+    dividends and buybacks to shareholders.
+
+    Args:
+        dividends (float or pd.Series): Dividends paid by the company.
+        buybacks (float or pd.Series): Buybacks paid by the company.
+        free_cash_flow (float or pd.Series): Free cash flow of the company.
+
+    Returns:
+        float | pd.Series: The total payout ratio.
+    """
+    return (abs(dividends) + abs(buybacks)) / free_cash_flow
 
 
 def get_reinvestment_ratio(dividend_payout_ratio: pd.Series) -> pd.Series:
@@ -436,3 +452,20 @@ def get_ev_to_ebit(
         float | pd.Series: The enterprise value multiplier value.
     """
     return enterprise_value / earnings_before_interest_and_taxes
+
+
+def get_stock_based_compensation_ratio(
+    stock_based_compensation: pd.Series,
+    free_cash_flow: pd.Series) -> pd.Series:
+    """
+    Calculates the stock based compensation ratio, which measures the proportion of free cash flow paid out as
+    stock based compensation to the employees and executives. 
+    
+    Args:
+        stock_based_compensation (float or pd.Series): Stock based compensation paid by the company.
+        free_cash_flow (float or pd.Series): Free cash flow of the company.
+
+    Returns:
+        float | pd.Series: The stock based compensation ratio.
+    """
+    return stock_based_compensation / free_cash_flow

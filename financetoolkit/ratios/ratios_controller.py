@@ -12,6 +12,7 @@ from financetoolkit.ratios import (
     profitability_model,
     solvency_model,
     valuation_model,
+    normalization_model,
 )
 
 # pylint: disable=too-many-lines,too-many-instance-attributes,too-many-public-methods,too-many-locals,eval-used
@@ -6234,7 +6235,7 @@ class Ratios:
 
         The formula is as follows:
 
-        - Dividend Payout Ratio = Dividends Paid / Net Income
+        - Dividend Payout Ratio = Dividends Paid / Free Cash Flow
 
         Args:
             rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
@@ -6257,28 +6258,28 @@ class Ratios:
         ```
         """
         if trailing:
-            payout_ratio = valuation_model.get_dividend_payout_ratio(
+            dividend_payout_ratio = valuation_model.get_dividend_payout_ratio(
                 self._cash_flow_statement.loc[:, "Dividends Paid", :]
                 .T.rolling(trailing)
                 .sum()
                 .T,
-                self._income_statement.loc[:, "Net Income", :]
+                self._cash_flow_statement.loc[:, "Free Cash Flow", :]
                 .T.rolling(trailing)
                 .sum()
                 .T,
             )
         else:
-            payout_ratio = valuation_model.get_dividend_payout_ratio(
+            dividend_payout_ratio = valuation_model.get_dividend_payout_ratio(
                 self._cash_flow_statement.loc[:, "Dividends Paid", :],
-                self._income_statement.loc[:, "Net Income", :],
+                self._cash_flow_statement.loc[:, "Free Cash Flow", :],
             )
 
         if growth:
             return calculate_growth(
-                payout_ratio, lag=lag, rounding=rounding if rounding else self._rounding
+                dividend_payout_ratio, lag=lag, rounding=rounding if rounding else self._rounding
             )
 
-        return payout_ratio.round(rounding if rounding else self._rounding)
+        return dividend_payout_ratio.round(rounding if rounding else self._rounding)
 
     @handle_errors
     def get_reinvestment_rate(
@@ -6542,3 +6543,866 @@ class Ratios:
             )
 
         return ev_to_ebit.round(rounding if rounding else self._rounding)
+
+    def collect_finansueth_ratios(
+            self,
+            diluted: bool = True,
+            rounding: int | None = None,
+            growth: bool = False,
+            lag: int | list[int] = 1,
+            trailing: int | None = None,
+        ) -> pd.DataFrame:
+            """
+            Calculates and collects all Zero-Max Ratios based on the provided data.
+
+            Args:
+                rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
+                growth (bool, optional): Whether to calculate the growth of the ratios. Defaults to False.
+                lag (int | str, optional): The lag to use for the growth calculation. Defaults to 1.
+                trailing (int): Defines whether to select a trailing period.
+                E.g. when selecting 4 with quarterly data, the TTM is calculated.
+
+            Returns:
+                pd.DataFrame: Zero-Max ratios calculated based on the specified parameters.
+
+            Notes:
+            - The method calculates various zero-max ratios for each asset in the Toolkit instance.
+            - If `growth` is set to True, the method calculates the growth of the ratio values
+            using the specified `lag`.
+
+            As an example:
+
+            ```python
+            from financetoolkit import Toolkit
+
+            toolkit = Toolkit(["AAPL", "TSLA"], api_key="FINANCIAL_MODELING_PREP_KEY")
+
+            zeromax_ratios = toolkit.ratios.collect_zeromax_ratios()
+            ```
+            """
+            finansueth_ratios: dict = {}
+
+            finansueth_ratios["Earning Yield"] = self.get_earnings_yield(trailing=trailing)
+            finansueth_ratios["Zero-Max Earning Yield"] = self.get_zm_earnings_yield(trailing=trailing)
+            finansueth_ratios["Free Cash Flow Yield"] = self.get_free_cash_flow_yield(diluted=diluted, trailing=trailing)
+            finansueth_ratios["Zero-Max Free Cash Flow Yield"] = self.get_zm_free_cash_flow_yield(diluted=diluted, trailing=trailing)
+            finansueth_ratios["Dividend Yield"] = self.get_dividend_yield(trailing=trailing)
+            finansueth_ratios["Zero-Max Dividend Yield"] = self.get_zm_dividend_yield(trailing=trailing)
+            finansueth_ratios["EV-to-EBITDA"] = self.get_ev_to_ebitda_ratio(diluted=diluted, trailing=trailing)
+            
+            finansueth_ratios["Net-Debt to EBITDA Ratio"] = self.get_net_debt_to_ebitda_ratio(trailing=trailing)
+            
+            finansueth_ratios["Gross Margin"] = self.get_gross_margin(trailing=trailing)
+            
+            finansueth_ratios["Operating Margin"] = self.get_operating_margin(trailing=trailing)
+            
+            finansueth_ratios["Net Profit Margin"] = self.get_net_profit_margin(trailing=trailing)
+            
+            finansueth_ratios["EBITDA Margin"] = self.get_ebitda_margin(trailing=trailing)
+            
+            finansueth_ratios["SGA-to-Revenue Ratio"] = self.get_sga_to_revenue_ratio(trailing=trailing)
+            
+            finansueth_ratios["RND-to-Revenue Ratio"] = self.get_rnd_to_revenue_ratio(trailing=trailing)
+            
+            finansueth_ratios["Dividend Payout Ratio"] = self.get_dividend_payout_ratio(trailing=trailing)
+            
+            finansueth_ratios["Total Payout Ratio"] = self.get_total_payout_ratio(trailing=trailing)
+
+            finansueth_ratios["Current Ratio"] = self.get_current_ratio(trailing=trailing)
+            
+            finansueth_ratios["Quick Ratio"] = self.get_quick_ratio(trailing=trailing)
+            
+            finansueth_ratios["Cash Ratio"] = self.get_cash_ratio(trailing=trailing)
+            
+            finansueth_ratios["Stock Based Compensation Ratio"] = self.get_stock_based_compensation_ratio(trailing=trailing)
+            
+            finansueth_ratios["CAPEX to D&A Ratio"] = self.get_capex_to_depreciation_amortization_ratio(trailing=trailing)
+                      
+            finansueth_ratios["Interest to Free Cash Flow Ratio"] = self.get_interest_to_free_cash_flow_ratio(trailing=trailing)
+            
+            finansueth_ratios["Debt-to-Equity Ratio"] = self.get_debt_to_equity_ratio(trailing=trailing)
+            
+            finansueth_ratios["Return on Assets"] = self.get_return_on_assets(trailing=trailing)
+            
+            finansueth_ratios["Return on Equity"] = self.get_return_on_equity(trailing=trailing)
+            
+            finansueth_ratios["Return on Invested Capital"] = self.get_return_on_invested_capital(trailing=trailing)
+            
+            finansueth_ratios["Return on Capital Employed"] = self.get_return_on_capital_employed(trailing=trailing)
+            
+            finansueth_ratios["Revenue Growth"] = self.get_revenue_growth(trailing=trailing, growth=True)
+            
+            finansueth_ratios["Shares Outstanding Growth"] = self.get_shares_outstanding_growth(diluted=diluted, growth=True)
+
+            self._finansueth_ratios = (
+                pd.concat(finansueth_ratios)
+                .swaplevel(0, 1)
+                .sort_index(level=0, sort_remaining=False)
+                .dropna(axis="columns", how="all")
+            )
+
+            self._finansueth_ratios = self._finansueth_ratios.round(
+                rounding if rounding else self._rounding
+            )
+
+            # In case sorting accidentally fails, the index is sorted again
+            # to follow the same order as the financial statements
+            available_columns = [
+                column
+                for column in self._income_statement.columns
+                if column in self._finansueth_ratios
+            ]
+            self._finansueth_ratios = self._finansueth_ratios.reindex(
+                available_columns, axis=1
+            )
+
+            if growth:
+                self._finansueth_ratios_growth = calculate_growth(
+                    self._finansueth_ratios,
+                    lag=lag,
+                    rounding=rounding if rounding else self._rounding,
+                    axis="columns",
+                )
+
+            if len(self._tickers) == 1:
+                return (
+                    self._finansueth_ratios_growth[self._tickers[0]]
+                    if growth
+                    else self._finansueth_ratios.loc[self._tickers[0]]
+                )
+
+            return self._finansueth_ratios_growth if growth else self._finansueth_ratios
+        
+    @handle_errors
+    def get_zm_earnings_yield(
+        self,
+        include_dividends: bool = False,
+        diluted: bool = True,
+        rounding: int | None = None,
+        growth: bool = False,
+        lag: int | list[int] = 1,
+        trailing: int | None = None,
+    ):
+        """
+        Calculate the zero-max earnings yield ratio, a valuation ratio that measures the earnings per share
+        relative to the market price per share and normalizes it against the maximum yield.
+
+        The earnings yield ratio is a valuation metric that provides insights into how much a
+        company's earnings contribute to its stock price. It compares the earnings per share
+        to the market price per share, helping investors understand the earnings potential of
+        the company relative to its current market value. The zero-max normalization allows comparison against
+        other companies while also seeing more explicity how the earnings yield is today compared to history. 
+
+        The formula is as follows:
+
+        - Earnings Yield Ratio = Earnings per Share / Share Price
+        - Zero-Max Earnings Yield Ratio = Earnings Yield Ratio / Earnings Yield Ratio (max) 
+
+        Args:
+            include_dividends (bool, optional): Whether to include dividends in the calculation. Defaults to False.
+            diluted (bool, optional): Whether to use diluted shares in the calculation. Defaults to True.
+            rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
+            growth (bool, optional): Whether to calculate the growth of the ratios. Defaults to False.
+            lag (int | str, optional): The lag to use for the growth calculation. Defaults to 1.
+            trailing (int): Defines whether to select a trailing period.
+            E.g. when selecting 4 with quarterly data, the TTM is calculated.
+
+        Returns:
+            pd.DataFrame: Earnings Yield Ratio values.
+
+        As an example:
+
+        ```python
+        from financetoolkit import Toolkit
+
+        toolkit = Toolkit(["AAPL", "TSLA"], api_key="FINANCIAL_MODELING_PREP_KEY")
+
+        zm_earnings_yield_ratio = toolkit.ratios.get_zm_earnings_yield()
+        ```
+        """
+        eps = self.get_earnings_per_share(
+            include_dividends, diluted=diluted, trailing=trailing if trailing else None
+        )
+
+        years = eps.columns
+        begin, end = str(years[0]), str(years[-1])
+
+        share_prices = self._historical_data.loc[begin:end, "Adj Close"][
+            self._tickers
+        ].T
+
+        zm_earnings_yield = normalization_model.get_zm_earnings_yield(eps, share_prices)
+
+        if growth:
+            return calculate_growth(
+                zm_earnings_yield,
+                lag=lag,
+                rounding=rounding if rounding else self._rounding,
+            )
+
+        return zm_earnings_yield.round(rounding if rounding else self._rounding)
+
+    @handle_errors
+    def get_zm_free_cash_flow_yield(
+        self,
+        diluted: bool = True,
+        rounding: int | None = None,
+        growth: bool = False,
+        lag: int | list[int] = 1,
+        trailing: int | None = None,
+    ):
+        """
+        Calculates the zero-max free cash flow yield ratio, which measures the free cash flow
+        relative to the market capitalization of the company. The zero-max normalization allows 
+        easier comparison how the free cash flow yield has performed historically and whether it 
+        is at a historically high or low level.
+
+        The free cash flow yield ratio is a measure of how efficiently a company generates
+        free cash flow relative to its market value. It provides insights into whether the
+        company's valuation is reasonable compared to the amount of cash it generates.
+
+        The formula is as follows:
+
+        - Free Cash Flow Yield Ratio = Free Cash Flow / Market Capitalization
+        - Zero-Max Free Cash Flow Yield Ratio = Free Cash Flow Yield Ratio / Free Cash Flow Yield Ratio (max)
+
+        Args:
+            diluted (bool, optional): Whether to use diluted shares for market capitalization. Defaults to True.
+            rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
+            growth (bool, optional): Whether to calculate the growth of the ratios. Defaults to False.
+            lag (int | str, optional): The lag to use for the growth calculation. Defaults to 1.
+            trailing (int): Defines whether to select a trailing period.
+            E.g. when selecting 4 with quarterly data, the TTM is calculated.
+
+        Returns:
+            pd.DataFrame: Free cash flow yield ratio values.
+
+        Notes:
+        - The method retrieves historical data and calculates the ratio for each asset in the Toolkit instance.
+        - If `growth` is set to True, the method calculates the growth of the ratio values using the specified `lag`.
+
+        As an example:
+
+        ```python
+        from financetoolkit import Toolkit
+
+        toolkit = Toolkit(["AAPL", "TSLA"], api_key="FINANCIAL_MODELING_PREP_KEY")
+
+        zm_free_cash_flow_yield_ratios = toolkit.ratios.get_zm_free_cash_flow_yield()
+        ```
+        """
+        years = self._balance_sheet_statement.columns
+        begin, end = str(years[0]), str(years[-1])
+
+        share_prices = self._historical_data.loc[begin:end, "Adj Close"][
+            self._tickers
+        ].T
+
+        average_shares = (
+            self._income_statement.loc[:, "Weighted Average Shares Diluted", :]
+            if diluted
+            else self._income_statement.loc[:, "Weighted Average Shares", :]
+        )
+
+        if trailing:
+            market_cap = valuation_model.get_market_cap(
+                share_prices.T.rolling(trailing).sum().T,
+                average_shares.T.rolling(trailing).sum().T,
+            )
+
+            zm_free_cash_flow_yield = normalization_model.get_zm_free_cash_flow_yield(
+                self._cash_flow_statement.loc[:, "Free Cash Flow", :]
+                .T.rolling(trailing)
+                .sum()
+                .T,
+                market_cap,
+            )
+        else:
+            market_cap = valuation_model.get_market_cap(share_prices, average_shares)
+
+            zm_free_cash_flow_yield = normalization_model.get_zm_free_cash_flow_yield(
+                self._cash_flow_statement.loc[:, "Free Cash Flow", :],
+                market_cap,
+            )
+
+        if growth:
+            return calculate_growth(
+                zm_free_cash_flow_yield,
+                lag=lag,
+                rounding=rounding if rounding else self._rounding,
+            )
+
+        return zm_free_cash_flow_yield.round(rounding if rounding else self._rounding)
+    
+    @handle_errors
+    def get_zm_dividend_yield(
+        self,
+        rounding: int | None = None,
+        growth: bool = False,
+        lag: int | list[int] = 1,
+        trailing: int | None = None,
+    ):
+        """
+        Calculate the zero-max dividend yield ratio, a valuation ratio that measures the
+        amount of dividends distributed per share of stock relative to the stock's price.
+        the zero-max ratio allows easier comparison between companies and how the dividend
+        yield has developed historically by normalizing towards the max value of 1. 
+
+        The dividend yield ratio is used by investors to assess the income potential
+        of an investment in a company's stock based on the dividends it pays out. A higher
+        dividend yield can be attractive to income-seeking investors.
+
+        The formula is as follows:
+
+        - Dividend Yield = Dividends per Share / Share Price
+        - Zero-Max Dividend Yield = Dividend Yield / Dividend Yield (max)
+
+        Args:
+            rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
+            growth (bool, optional): Whether to calculate the growth of the ratios. Defaults to False.
+            lag (int | str, optional): The lag to use for the growth calculation. Defaults to 1.
+            trailing (int): Defines whether to select a trailing period.
+            E.g. when selecting 4 with quarterly data, the TTM is calculated.
+
+        Returns:
+            pd.DataFrame: Dividend yield values.
+
+        Notes:
+        - The method retrieves historical data and calculates the dividend yield ratio for each asset
+        in the Toolkit instance.
+        - If `growth` is set to True, the method calculates the growth of the dividend yield values
+        using the specified `lag`.
+
+        As an example:
+
+        ```python
+        from financetoolkit import Toolkit
+
+        toolkit = Toolkit(["AAPL", "TSLA"], api_key="FINANCIAL_MODELING_PREP_KEY")
+
+        zm_dividend_yield = toolkit.ratios.get_zm_dividend_yield()
+        ```
+        """
+        share_prices = self._historical_data.loc[:, "Adj Close"][self._tickers].T
+        dividends = self._historical_data.loc[:, "Dividends"][self._tickers].T
+
+        zm_dividend_yield = normalization_model.get_zm_dividend_yield(
+            dividends.T.rolling(trailing).sum().T if trailing else dividends,
+            share_prices,
+        )
+
+        if growth:
+            return calculate_growth(
+                zm_dividend_yield,
+                lag=lag,
+                rounding=rounding if rounding else self._rounding,
+            )
+
+        return zm_dividend_yield.round(rounding if rounding else self._rounding)
+    
+    @handle_errors
+    def get_rnd_to_revenue_ratio(
+        self,
+        rounding: int | None = None,
+        growth: bool = False,
+        lag: int | list[int] = 1,
+        trailing: int | None = None,
+    ) -> pd.DataFrame:
+        """
+        Calculate the research and development (R&D) expenses to revenue ratio,
+        which measures the R&D expenses relative to the revenue of the company.
+
+        The R&D to revenue ratio is calculated by dividing the total R&D expenses by the
+        company's revenue and then multiplying by 100 to express it as a percentage. It
+        provides insight into the company strategy related to innovation and new product
+        development. A high ratio compares to peers could indicate that in the future 
+        the company might have a product or services sales edge. 
+
+        The formula is as follows:
+
+        - R&D to Revenue Ratio = R&D Expenses / Revenue
+
+        Args:
+            rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
+            growth (bool, optional): Whether to calculate the growth of the ratios. Defaults to False.
+            lag (int | str, optional): The lag to use for the growth calculation. Defaults to 1.
+            trailing (int): Defines whether to select a trailing period.
+            E.g. when selecting 4 with quarterly data, the TTM is calculated.
+
+        Returns:
+            pd.DataFrame: R&D to revenue ratio values.
+
+        Notes:
+        - The method retrieves historical data and calculates the R&D to revenue ratio for
+        each asset in the Toolkit instance.
+        - If `growth` is set to True, the method calculates the growth of the ratio values
+        using the specified `lag`.
+
+        As an example:
+
+        ```python
+        from financetoolkit import Toolkit
+
+        toolkit = Toolkit(["AAPL", "TSLA"], api_key="FINANCIAL_MODELING_PREP_KEY")
+
+        rnd_to_revenue_ratios = toolkit.ratios.get_rnd_to_revenue_ratio()
+        ```
+        """
+        if trailing:
+            rnd_to_revenue_ratio = efficiency_model.get_rnd_to_revenue_ratio(
+                self._income_statement.loc[
+                    :, "Research and Development Expenses", :
+                ]
+                .T.rolling(trailing)
+                .sum()
+                .T,
+                self._income_statement.loc[:, "Revenue", :].T.rolling(trailing).sum().T,
+            )
+        else:
+            rnd_to_revenue_ratio = efficiency_model.get_rnd_to_revenue_ratio(
+                self._income_statement.loc[
+                    :, "Research and Development Expenses", :
+                ],
+                self._income_statement.loc[:, "Revenue", :],
+            )
+
+        if growth:
+            return calculate_growth(
+                rnd_to_revenue_ratio,
+                lag=lag,
+                rounding=rounding if rounding else self._rounding,
+            )
+
+        return rnd_to_revenue_ratio.round(rounding if rounding else self._rounding)
+    
+    @handle_errors
+    def get_total_payout_ratio(
+        self,
+        rounding: int | None = None,
+        growth: bool = False,
+        lag: int | list[int] = 1,
+        trailing: int | None = None,
+    ):
+        """
+        Calculate the total payout ratio, a financial metric that measures the proportion
+        of earnings paid out as dividends and buybacks to shareholders.
+
+        The total payout ratio is a financial metric that helps investors assess the
+        portion of a company's earnings that is being distributed to shareholders
+        in the form of dividends and dividends. It's a valuable indicator for dividend investors as
+        it indicates the sustainability of dividend payments and the company's
+        approach to distributing profits.
+
+        The formula is as follows:
+
+        - Total Payout Ratio = Dividends Paid + Buybacks / Free Cash Flow
+
+        Args:
+            rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
+            growth (bool, optional): Whether to calculate the growth of the ratios. Defaults to False.
+            lag (int | str, optional): The lag to use for the growth calculation. Defaults to 1.
+            trailing (int): Defines whether to select a trailing period.
+            E.g. when selecting 4 with quarterly data, the TTM is calculated.
+
+        Returns:
+            pd.DataFrame: Total Payout Ratio values.
+
+        As an example:
+
+        ```python
+        from financetoolkit import Toolkit
+
+        toolkit = Toolkit(["AAPL", "TSLA"], api_key="FINANCIAL_MODELING_PREP_KEY")
+
+        toolkit.ratios.get_total_payout_ratio()
+        ```
+        """
+        if trailing:
+            total_payout_ratio = valuation_model.get_total_payout_ratio(
+                self._cash_flow_statement.loc[:, "Dividends Paid", :]
+                .T.rolling(trailing)
+                .sum()
+                .T,
+                self._cash_flow_statement.loc[:, "Common Stock Purchased", :]
+                .T.rolling(trailing)
+                .sum()
+                .T,
+                self._cash_flow_statement.loc[:, "Free Cash Flow", :]
+                .T.rolling(trailing)
+                .sum()
+                .T,
+                
+            )
+        else:
+            total_payout_ratio = valuation_model.get_total_payout_ratio(
+                self._cash_flow_statement.loc[:, "Dividends Paid", :],
+                self._cash_flow_statement.loc[:, "Common Stock Purchased", :],
+                self._cash_flow_statement.loc[:, "Free Cash Flow", :],
+            )
+
+        if growth:
+            return calculate_growth(
+                total_payout_ratio, lag=lag, rounding=rounding if rounding else self._rounding
+            )
+
+        return total_payout_ratio.round(rounding if rounding else self._rounding)
+    
+    @handle_errors
+    def get_stock_based_compensation_ratio(
+        self,
+        rounding: int | None = None,
+        growth: bool = False,
+        lag: int | list[int] = 1,
+        trailing: int | None = None,
+    ):
+        """
+        ...
+
+        ...
+
+        The formula is as follows:
+
+        - Stock Based Compensation Ratio = Stock Based Compensation / Free Cash Flow
+
+        Args:
+            rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
+            growth (bool, optional): Whether to calculate the growth of the ratios. Defaults to False.
+            lag (int | str, optional): The lag to use for the growth calculation. Defaults to 1.
+            trailing (int): Defines whether to select a trailing period.
+            E.g. when selecting 4 with quarterly data, the TTM is calculated.
+
+        Returns:
+            pd.DataFrame: Stock Based Compensation Ratio values.
+
+        As an example:
+
+        ```python
+        from financetoolkit import Toolkit
+
+        toolkit = Toolkit(["AAPL", "TSLA"], api_key="FINANCIAL_MODELING_PREP_KEY")
+
+        toolkit.ratios.get_stock_based_compensation_ratio()
+        ```
+        """
+        if trailing:
+            stock_based_compensation = valuation_model.get_stock_based_compensation_ratio(
+                self._cash_flow_statement.loc[:, "Stock Based Compensation", :]
+                .T.rolling(trailing)
+                .sum()
+                .T,
+                self._cash_flow_statement.loc[:, "Free Cash Flow", :]
+                .T.rolling(trailing)
+                .sum()
+                .T,
+            )
+        else:
+            stock_based_compensation = valuation_model.get_stock_based_compensation_ratio(
+                self._cash_flow_statement.loc[:, "Stock Based Compensation", :],
+                self._cash_flow_statement.loc[:, "Free Cash Flow", :],
+            )
+
+        if growth:
+            return calculate_growth(
+                stock_based_compensation, lag=lag, rounding=rounding if rounding else self._rounding
+            )
+
+        return stock_based_compensation.round(rounding if rounding else self._rounding)
+    
+    @handle_errors
+    def get_revenue_growth(
+        self,
+        rounding: int | None = None,
+        growth: bool = True,
+        lag: int | list[int] = 1,
+        trailing: int | None = None,
+    ) -> pd.DataFrame:
+        """
+        ...
+
+        ...
+
+        The formula is as follows:
+
+        - Revenue Growth = Revenue (growth)
+
+        Args:
+            rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
+            growth (bool, optional): Whether to calculate the growth of the ratios. Defaults to False.
+            lag (int | str, optional): The lag to use for the growth calculation. Defaults to 1.
+            trailing (int): Defines whether to select a trailing period.
+            E.g. when selecting 4 with quarterly data, the TTM is calculated.
+
+        Returns:
+            pd.DataFrame: Revenue growth values
+
+        Notes:
+        - The method retrieves historical revenue data. 
+        - If `growth` is set to True, the method calculates the growth of the ratio values
+        using the specified `lag`.
+
+        As an example:
+
+        ```python
+        from financetoolkit import Toolkit
+
+        toolkit = Toolkit(["AAPL", "TSLA"], api_key="FINANCIAL_MODELING_PREP_KEY")
+
+        get_revenue_growth = toolkit.ratios.get_revenue_growth()
+        ```
+        """
+        if trailing:
+            revenue = self._income_statement.loc[:, "Revenue", :].T.rolling(trailing).sum().T
+        else:
+            revenue = self._income_statement.loc[:, "Revenue", :]
+
+        if growth:
+            return calculate_growth(
+                revenue,
+                lag=lag,
+                rounding=rounding if rounding else self._rounding,
+            )
+
+        return revenue.round(rounding if rounding else self._rounding)
+    
+    @handle_errors
+    def get_shares_outstanding_growth(
+        self,
+        diluted: bool = True,
+        rounding: int | None = None,
+        growth: bool = False,
+        lag: int | list[int] = 1,
+    ):
+        """
+        ...
+
+        ...
+
+        The formula is as follows:
+
+        - Shares Outstanding Growth = Shares Outstanding (growth)
+
+        Args:
+            diluted (bool, optional): Whether to use diluted shares for market capitalization. Defaults to True.
+            rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
+            growth (bool, optional): Whether to calculate the growth of the ratios. Defaults to False.
+            lag (int | str, optional): The lag to use for the growth calculation. Defaults to 1.
+            E.g. when selecting 4 with quarterly data, the TTM is calculated.
+
+        Returns:
+            pd.DataFrame: Shares Outstanding growth data
+
+        Notes:
+        - The method retrieves historical data and calculates the growth for each asset in the Toolkit instance.
+        - If `growth` is set to True, the method calculates the growth of the ratio values using the specified `lag`.
+
+        As an example:
+
+        ```python
+        from financetoolkit import Toolkit
+
+        toolkit = Toolkit(["AAPL", "TSLA"], api_key="FINANCIAL_MODELING_PREP_KEY")
+
+        shares_outstanding_growth = toolkit.ratios.shares_outstanding_growth()
+        ```
+        """
+        years = self._balance_sheet_statement.columns
+        begin, end = str(years[0]), str(years[-1])
+
+        average_shares = (
+            self._income_statement.loc[:, "Weighted Average Shares Diluted", :]
+            if diluted
+            else self._income_statement.loc[:, "Weighted Average Shares", :]
+        )
+
+        if growth:
+            return calculate_growth(
+                average_shares,
+                lag=lag,
+                rounding=rounding if rounding else self._rounding,
+            )
+
+        return average_shares.round(rounding if rounding else self._rounding)
+    
+    @handle_errors
+    def get_ebitda_margin(
+        self,
+        rounding: int | None = None,
+        growth: bool = False,
+        lag: int | list[int] = 1,
+        trailing: int | None = None,
+    ) -> pd.DataFrame:
+        """
+        ...
+
+        ...
+
+        The formula is as follows:
+
+        - EBITDA Margin Ratio = EBITDA / Revenue
+
+        Args:
+            rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
+            growth (bool, optional): Whether to calculate the growth of the ratios. Defaults to False.
+            lag (int | str, optional): The lag to use for the growth calculation. Defaults to 1.
+            trailing (int): Defines whether to select a trailing period.
+            E.g. when selecting 4 with quarterly data, the TTM is calculated.
+
+        Returns:
+            pd.DataFrame: EBITDA margin ratio values.
+
+        Notes:
+        - The method retrieves historical data and calculates the EBITDA margin ratio for each
+        asset in the Toolkit instance.
+        - If `growth` is set to True, the method calculates the growth of the ratio values
+        using the specified `lag`.
+
+        As an example:
+
+        ```python
+        from financetoolkit import Toolkit
+
+        toolkit = Toolkit(["AAPL", "TSLA"], api_key="FINANCIAL_MODELING_PREP_KEY")
+
+        ebitda_margin_ratios = toolkit.ratios.get_ebitda_margin()
+        ```
+        """
+        if trailing:
+            ebitda_margin = self._income_statement.loc[:, "EBITDA Ratio", :].T.rolling(trailing).sum().T
+        else:
+            ebitda_margin = self._income_statement.loc[:, "EBITDA Ratio", :]
+
+        if growth:
+            return calculate_growth(
+                ebitda_margin, lag=lag, rounding=rounding if rounding else self._rounding
+            )
+
+        return ebitda_margin.round(rounding if rounding else self._rounding)
+    
+    @handle_errors
+    def get_interest_to_free_cash_flow_ratio(
+        self,
+        rounding: int | None = None,
+        growth: bool = False,
+        lag: int | list[int] = 1,
+        trailing: int | None = None,
+    ):
+        """
+        ...
+
+        ...
+
+        The formula is as follows:
+
+        - Stock Based Compensation Ratio = Stock Based Compensation / Free Cash Flow
+
+        Args:
+            rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
+            growth (bool, optional): Whether to calculate the growth of the ratios. Defaults to False.
+            lag (int | str, optional): The lag to use for the growth calculation. Defaults to 1.
+            trailing (int): Defines whether to select a trailing period.
+            E.g. when selecting 4 with quarterly data, the TTM is calculated.
+
+        Returns:
+            pd.DataFrame: Interest to Free Cash Flow Ratio values.
+
+        As an example:
+
+        ```python
+        from financetoolkit import Toolkit
+
+        toolkit = Toolkit(["AAPL", "TSLA"], api_key="FINANCIAL_MODELING_PREP_KEY")
+
+        toolkit.ratios.get_interest_to_free_cash_flow_ratio()
+        ```
+        """
+        if trailing:
+            interest_to_free_cash_flow = profitability_model.get_interest_to_free_cash_flow(
+                self._income_statement.loc[:, "Interest Expense", :]
+                .T.rolling(trailing)
+                .sum()
+                .T,
+                self._cash_flow_statement.loc[:, "Free Cash Flow", :]
+                .T.rolling(trailing)
+                .sum()
+                .T,
+            )
+        else:
+            interest_to_free_cash_flow = profitability_model.get_interest_to_free_cash_flow(
+                self._income_statement.loc[:, "Interest Expense", :],
+                self._cash_flow_statement.loc[:, "Free Cash Flow", :],
+            )
+
+        if growth:
+            return calculate_growth(
+                interest_to_free_cash_flow, lag=lag, rounding=rounding if rounding else self._rounding
+            )
+
+        return interest_to_free_cash_flow.round(rounding if rounding else self._rounding)
+    
+    @handle_errors
+    def get_capex_to_depreciation_amortization_ratio(
+        self,
+        rounding: int | None = None,
+        growth: bool = False,
+        lag: int | list[int] = 1,
+        trailing: int | None = None,
+    ):
+        """
+        ...
+
+        ...
+
+        The formula is as follows:
+
+        - Capital Expenditure to D&A Ratio = Capital Expenditure / Depreciation & Amortization 
+
+        Args:
+            rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
+            growth (bool, optional): Whether to calculate the growth of the ratios. Defaults to False.
+            lag (int | str, optional): The lag to use for the growth calculation. Defaults to 1.
+            trailing (int): Defines whether to select a trailing period.
+            E.g. when selecting 4 with quarterly data, the TTM is calculated.
+
+        Returns:
+            pd.DataFrame: Capital expenditure to D&A ratio values.
+
+        Notes:
+        - The method retrieves historical data and calculates the ratio for each asset in the Toolkit instance.
+        - If `growth` is set to True, the method calculates the growth of the ratio values using the specified `lag`.
+
+        As an example:
+
+        ```python
+        from financetoolkit import Toolkit
+
+        toolkit = Toolkit(["AAPL", "TSLA"], api_key="FINANCIAL_MODELING_PREP_KEY")
+
+        capex_to_depreciation_amortization_ratio = toolkit.ratios.get_capex_to_depreciation_amortization_ratio()
+        ```
+        """
+        if trailing:
+            capex_to_depreciation_amortization_ratio = solvency_model.get_capex_to_da_ratio(
+                self._cash_flow_statement.loc[:, "Capital Expenditure", :]
+                .T.rolling(trailing)
+                .sum()
+                .T,
+                self._cash_flow_statement.loc[:, "Depreciation and Amortization", :]
+                .T.rolling(trailing)
+                .sum()
+                .T,
+
+            )
+        else:
+            capex_to_depreciation_amortization_ratio = solvency_model.get_capex_to_da_ratio(
+                self._cash_flow_statement.loc[:, "Capital Expenditure", :],
+                self._cash_flow_statement.loc[:, "Depreciation and Amortization", :],
+            )
+
+        if growth:
+            return calculate_growth(
+                capex_to_depreciation_amortization_ratio,
+                lag=lag,
+                rounding=rounding if rounding else self._rounding,
+            )
+
+        return capex_to_depreciation_amortization_ratio.round(rounding if rounding else self._rounding)

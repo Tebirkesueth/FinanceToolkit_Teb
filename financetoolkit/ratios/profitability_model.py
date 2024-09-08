@@ -357,3 +357,21 @@ def get_EBIT_to_revenue(
         float | pd.Series: The EBITperRevenue value.
     """
     return earnings_before_interest_and_taxes / revenue
+
+
+def get_interest_to_free_cash_flow(
+    interest_expense: pd.Series, free_cash_flow: pd.Series
+) -> pd.Series:
+    """
+    Calculate the interest to free cash flow ratio, which is the ratio of how much interest
+    a company pays in relation to its free cash flow. A high ratio could indicate that the 
+    company will struggle to service its debt. 
+
+    Args:
+        interest_expense (float or pd.Series): Interest expense of the company
+        free_cash_flow (float or pd.Series): Free cash flow of the company.
+
+    Returns:
+        float | pd.Series: The Interest to Free Cash FLow value.
+    """
+    return interest_expense / free_cash_flow

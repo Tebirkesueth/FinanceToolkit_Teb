@@ -80,6 +80,14 @@ def test_collect_valuation_ratios(recorder):
     recorder.capture(ratios_module.collect_valuation_ratios(growth=True, trailing=2))
 
 
+def test_collect_finansueth_ratios(recorder):
+    recorder.capture(ratios_module.collect_finansueth_ratios())
+    recorder.capture(ratios_module.collect_finansueth_ratios(growth=True))
+    recorder.capture(ratios_module.collect_finansueth_ratios(growth=True, lag=[1, 2, 3]))
+    recorder.capture(ratios_module.collect_finansueth_ratios(growth=False, trailing=2))
+    recorder.capture(ratios_module.collect_finansueth_ratios(growth=True, trailing=2))
+
+
 def test_get_asset_turnover_ratio(recorder):
     recorder.capture(ratios_module.get_asset_turnover_ratio())
 
@@ -334,3 +342,47 @@ def test_get_tangible_asset_value(recorder):
 
 def test_get_net_current_asset_value(recorder):
     recorder.capture(ratios_module.get_net_current_asset_value())
+
+
+def test_get_zm_earnings_yield(recorder):
+    recorder.capture(ratios_module.get_zm_earnings_yield())
+    
+
+def test_get_zm_free_cash_flow_yield(recorder):
+    recorder.capture(ratios_module.get_zm_free_cash_flow_yield())
+
+
+def test_get_zm_dividend_yield(recorder):
+    recorder.capture(ratios_module.get_zm_dividend_yield())
+
+
+def test_get_rnd_to_revenue_ratio(recorder):
+    recorder.capture(ratios_module.get_rnd_to_revenue_ratio())
+
+
+def test_get_total_payout_ratio(recorder):
+    recorder.capture(ratios_module.get_total_payout_ratio())
+
+
+def test_get_stock_based_compensation_ratio(recorder):
+    recorder.capture(ratios_module.get_stock_based_compensation_ratio())
+    
+
+def test_get_revenue_growth(recorder):
+    recorder.capture(ratios_module.get_revenue_growth())
+
+
+def test_get_shares_outstanding_growth(recorder):
+    recorder.capture(ratios_module.get_shares_outstanding_growth())
+
+
+def test_get_ebitda_margin(recorder):
+    recorder.capture(ratios_module.get_ebitda_margin())
+
+
+def test_get_interest_to_free_cash_flow_ratio(recorder):
+    recorder.capture(ratios_module.get_interest_to_free_cash_flow_ratio())
+
+
+def test_get_capex_to_depreciation_amortization_ratio(recorder):
+    recorder.capture(ratios_module.get_capex_to_depreciation_amortization_ratio())
