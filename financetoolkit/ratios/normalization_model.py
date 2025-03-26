@@ -59,3 +59,38 @@ def get_zm_dividend_yield(
     dividend_yield = dividends / stock_price
     
     return dividend_yield.div(dividend_yield.max(axis=1), axis=0)
+
+def get_zm_shares_outstanding(
+    shares_outstanding: pd.Series,
+) -> pd.Series:
+    """
+    Calculate the zero-max ratio, a valuation ratio that measures the amount of
+    shares are outstanding relative to the maximum shares outstanding within the
+    period specified.
+
+    Args:
+        shares outstanding (float or pd.Series): Shares outstanding by the company.
+
+    Returns:
+        float | pd.Series: The zero-max shares outstanding value.
+    """
+    
+    return shares_outstanding.div(shares_outstanding.max(axis=1), axis=0)
+  
+  
+def get_zm_revenue(
+    revenue: pd.Series,
+) -> pd.Series:
+    """
+    Calculate the zero-max ratio, a valuation ratio that measures the amount of
+    revenue relative to the maximum revenue within the
+    period specified.
+
+    Args:
+        revenue (float or pd.Series): revenue earned by the company.
+
+    Returns:
+        float | pd.Series: The zero-max revenue value.
+    """
+    
+    return revenue.div(revenue.max(axis=1), axis=0)

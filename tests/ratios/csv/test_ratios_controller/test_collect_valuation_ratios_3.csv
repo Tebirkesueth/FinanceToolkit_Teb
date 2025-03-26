@@ -8,7 +8,7 @@ AAPL,Price-to-Book,47.0796,37.7476,
 AAPL,Interest Debt per Share,800241647.4205,756048315.6364,425588139.002
 AAPL,CAPEX per Share,-0.5348,-0.6566,-0.3332
 AAPL,Earnings Yield,0.0252,0.0453,
-AAPL,Dividend Payout Ratio,0.1877,0.1507,0.1518
+AAPL,Dividend Payout Ratio,0.1716,0.1434,0.1345
 AAPL,Dividend Yield,0.0198,0.0137,
 AAPL,Weighted Dividend Yield,0.0047,0.0068,
 AAPL,Price-to-Cash-Flow,16.0512,9.3384,
@@ -30,7 +30,7 @@ MSFT,Price-to-Book,19.4412,11.6945,
 MSFT,Interest Debt per Share,543993910.9193,517552264.7139,499141106.1162
 MSFT,CAPEX per Share,-2.3584,-2.9382,-3.4634
 MSFT,Earnings Yield,0.0209,0.0371,
-MSFT,Dividend Payout Ratio,0.2999,0.2586,0.2614
+MSFT,Dividend Payout Ratio,0.3124,0.2858,0.3044
 MSFT,Dividend Yield,0.0133,0.0203,
 MSFT,Weighted Dividend Yield,0.0063,0.0096,
 MSFT,Price-to-Cash-Flow,18.3225,10.8337,

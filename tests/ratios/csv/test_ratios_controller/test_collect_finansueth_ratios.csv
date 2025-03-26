@@ -1,0 +1,67 @@
+,,2020,2021,2022,2023
+AAPL,Earning Yield,0.0251,0.0319,0.0472,
+AAPL,Zero-Max Earning Yield,0.5309,0.6759,1.0,
+AAPL,Free Cash Flow Yield,0.0321,0.0314,0.0528,
+AAPL,Zero-Max Free Cash Flow Yield,0.6076,0.5942,1.0,
+AAPL,Dividend Yield,0.02,0.0049,0.007,
+AAPL,Zero-Max Dividend Yield,1.0,0.2457,0.3512,
+AAPL,EV-to-EBITDA,30.5506,25.4059,16.9193,
+AAPL,Net-Debt to EBITDA Ratio,0.9622,0.7467,0.7386,0.6238
+AAPL,Gross Margin,0.3823,0.4178,0.4331,0.4413
+AAPL,Operating Margin,0.2415,0.2978,0.3029,0.2982
+AAPL,Net Profit Margin,0.2091,0.2588,0.2531,0.2531
+AAPL,EBITDA Margin,0.2817,0.3287,0.331,0.2982
+AAPL,SGA-to-Revenue Ratio,0.0725,0.0601,0.0636,0.065
+AAPL,RND-to-Revenue Ratio,0.0683,0.0599,0.0666,0.078
+AAPL,Dividend Payout Ratio,0.1919,0.1556,0.1332,0.1359
+AAPL,Total Payout Ratio,1.1782,1.0805,0.9354,0.8375
+AAPL,Current Ratio,1.3636,1.0746,0.8794,0.988
+AAPL,Quick Ratio,1.2182,0.9097,0.7094,0.6267
+AAPL,Cash Ratio,0.8629,0.4992,0.3137,0.4236
+AAPL,Stock Based Compensation Ratio,0.0931,0.0851,0.0811,0.098
+AAPL,CFO to NI Ratio,1.4052,1.0988,1.2239,1.1397
+AAPL,CAPEX to CFO Ratio,-0.0906,-0.1065,-0.0877,0.0
+AAPL,CAPEX to D&A Ratio,0.6611,0.9824,0.9643,0.0
+AAPL,Interest to Free Cash Flow Ratio,0.0392,0.0285,0.0263,0.0
+AAPL,Debt-to-Equity Ratio,1.7208,1.9768,2.3695,1.6295
+AAPL,Return on Assets,,0.2806,0.2836,0.275
+AAPL,Return on Equity,,1.4744,1.7546,1.7195
+AAPL,Return on Invested Capital,,0.5971,0.6395,0.6705
+AAPL,Return on Capital Employed,0.3202,0.496,0.6139,0.5487
+AAPL,Revenue Growth,,0.3326,0.0779,-0.028
+AAPL,Zero-Max Revenue,0.6962,0.9277,1.0,0.972
+AAPL,Shares Outstanding Growth,,-0.0378,-0.032,-0.0314
+AAPL,Zero-Max Shares Outstanding,1.0,0.9622,0.9314,0.9021
+MSFT,Earning Yield,0.0266,0.0243,0.0405,
+MSFT,Zero-Max Earning Yield,0.6557,0.6009,1.0,
+MSFT,Free Cash Flow Yield,0.0271,0.0223,0.0363,
+MSFT,Zero-Max Free Cash Flow Yield,0.7478,0.6144,1.0,
+MSFT,Dividend Yield,0.0096,0.0069,0.0107,
+MSFT,Zero-Max Dividend Yield,0.903,0.6517,1.0,
+MSFT,EV-to-EBITDA,26.2328,31.5108,18.8393,
+MSFT,Net-Debt to EBITDA Ratio,0.8733,0.6562,0.4838,0.2467
+MSFT,Gross Margin,0.6778,0.6893,0.684,0.6892
+MSFT,Operating Margin,0.3703,0.4159,0.4206,0.4177
+MSFT,Net Profit Margin,0.3096,0.3645,0.3669,0.3415
+MSFT,EBITDA Margin,0.4598,0.4855,0.4935,0.4831
+MSFT,SGA-to-Revenue Ratio,0.1728,0.1501,0.1398,0.1431
+MSFT,RND-to-Revenue Ratio,0.1347,0.1232,0.1236,0.1283
+MSFT,Dividend Payout Ratio,0.3346,0.2944,0.2784,0.3329
+MSFT,Total Payout Ratio,0.8424,0.7824,0.7802,0.7069
+MSFT,Current Ratio,2.5158,2.08,1.7846,1.7692
+MSFT,Quick Ratio,2.3308,1.8992,1.5673,1.5358
+MSFT,Cash Ratio,1.8881,1.4701,1.1018,1.0683
+MSFT,Stock Based Compensation Ratio,0.1169,0.109,0.1152,0.1616
+MSFT,CFO to NI Ratio,1.3702,1.2525,1.2241,1.2103
+MSFT,CAPEX to CFO Ratio,-0.2545,-0.2687,-0.2683,-0.3209
+MSFT,CAPEX to D&A Ratio,1.2067,1.7647,1.6519,2.0278
+MSFT,Interest to Free Cash Flow Ratio,0.0573,0.0418,0.0317,0.0331
+MSFT,Debt-to-Equity Ratio,0.6001,0.4773,0.3679,0.2908
+MSFT,Return on Assets,,0.193,0.2082,0.1863
+MSFT,Return on Equity,,0.4708,0.4715,0.3882
+MSFT,Return on Invested Capital,,0.3899,0.4153,0.3731
+MSFT,Return on Capital Employed,0.2429,0.2996,0.318,0.2965
+MSFT,Revenue Growth,,0.1753,0.1796,0.0688
+MSFT,Zero-Max Revenue,0.6749,0.7932,0.9356,1.0
+MSFT,Shares Outstanding Growth,,-0.0098,-0.0089,-0.009
+MSFT,Zero-Max Shares Outstanding,1.0,0.9902,0.9814,0.9725

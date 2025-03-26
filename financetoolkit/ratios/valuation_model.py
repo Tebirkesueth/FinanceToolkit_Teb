@@ -353,7 +353,10 @@ def get_earnings_yield(
     return earnings_per_share / market_price_per_share
 
 
-def get_dividend_payout_ratio(dividends: pd.Series, free_cash_flow: pd.Series) -> pd.Series:
+def get_dividend_payout_ratio(
+    dividends: pd.Series, 
+    free_cash_flow: pd.Series
+) -> pd.Series:
     """
     Calculates the dividend payout ratio, which measures the proportion of free cash flow paid out as
     dividends to shareholders.
@@ -366,36 +369,6 @@ def get_dividend_payout_ratio(dividends: pd.Series, free_cash_flow: pd.Series) -
         float | pd.Series: The dividend payout ratio.
     """
     return abs(dividends) / free_cash_flow
-
-
-def get_total_payout_ratio(dividends: pd.Series, buybacks: pd.Series, free_cash_flow: pd.Series) -> pd.Series:
-    """
-    Calculates the total payout ratio, which measures the proportion of free cash flow paid out as
-    dividends and buybacks to shareholders.
-
-    Args:
-        dividends (float or pd.Series): Dividends paid by the company.
-        buybacks (float or pd.Series): Buybacks paid by the company.
-        free_cash_flow (float or pd.Series): Free cash flow of the company.
-
-    Returns:
-        float | pd.Series: The total payout ratio.
-    """
-    return (abs(dividends) + abs(buybacks)) / free_cash_flow
-
-
-def get_reinvestment_ratio(dividend_payout_ratio: pd.Series) -> pd.Series:
-    """
-    Calculates the reinvestment ratio, which measures the proportion of net income
-    retained by the company to reinvest in the business.
-
-    Args:
-        dividend_payout_ratio (float or pd.Series): The dividend payout ratio.
-
-    Returns:
-        float | pd.Series: The reinvestment ratio.
-    """
-    return 1 - dividend_payout_ratio
 
 
 def get_tangible_asset_value(
@@ -436,6 +409,47 @@ def get_net_current_asset_value(
     return total_current_assets - total_current_liabilities
 
 
+# ====================================================================================================================
+# Below this line are functions added as part of the finansueth project fork
+# ====================================================================================================================
+
+
+def get_total_payout_ratio(
+    dividends: pd.Series, 
+    buybacks: pd.Series, 
+    free_cash_flow: pd.Series
+) -> pd.Series:
+    """
+    Calculates the total payout ratio, which measures the proportion of free cash flow paid out as
+    dividends and buybacks to shareholders.
+
+    Args:
+        dividends (float or pd.Series): Dividends paid by the company.
+        buybacks (float or pd.Series): Buybacks paid by the company.
+        free_cash_flow (float or pd.Series): Free cash flow of the company.
+
+    Returns:
+        float | pd.Series: The total payout ratio.
+    """
+    return (abs(dividends) + abs(buybacks)) / free_cash_flow
+
+
+def get_reinvestment_ratio(
+    dividend_payout_ratio: pd.Series
+) -> pd.Series:
+    """
+    Calculates the reinvestment ratio, which measures the proportion of net income
+    retained by the company to reinvest in the business.
+
+    Args:
+        dividend_payout_ratio (float or pd.Series): The dividend payout ratio.
+
+    Returns:
+        float | pd.Series: The reinvestment ratio.
+    """
+    return 1 - dividend_payout_ratio
+
+
 def get_ev_to_ebit(
     enterprise_value: pd.Series,
     earnings_before_interest_and_taxes: pd.Series,
@@ -456,7 +470,8 @@ def get_ev_to_ebit(
 
 def get_stock_based_compensation_ratio(
     stock_based_compensation: pd.Series,
-    free_cash_flow: pd.Series) -> pd.Series:
+    free_cash_flow: pd.Series
+) -> pd.Series:
     """
     Calculates the stock based compensation ratio, which measures the proportion of free cash flow paid out as
     stock based compensation to the employees and executives. 
@@ -469,3 +484,41 @@ def get_stock_based_compensation_ratio(
         float | pd.Series: The stock based compensation ratio.
     """
     return stock_based_compensation / free_cash_flow
+
+
+def get_cfo_to_net_income_ratio(
+    net_cash_provided_by_operating_activities: pd.Series,
+    net_income: pd.Series
+) -> pd.Series:
+    """
+    Calculates the cfo to net income ratio, which measures the proportion of net income that converts
+    to cash flow from operations. It is a measure of how efficiently an organization converts the 
+    bottom line into cash that can be utilized in the organization.  
+    
+    Args:
+        net_cash_provided_by_operating_activities (float or pd.Series): cash from operations
+        net_income (float or pd.Series): net income of the company
+
+    Returns:
+        float | pd.Series: The cfo to net income ratio.
+    """
+    return net_cash_provided_by_operating_activities / net_income
+
+
+def get_capex_to_cfo_ratio(
+    capital_expenditure: pd.Series,
+    net_cash_provided_by_operating_activities: pd.Series
+) -> pd.Series:
+    """
+    Calculates the cfo to net income ratio, which measures the proportion of net income that converts
+    to cash flow from operations. It is a measure of how efficiently an organization converts the 
+    bottom line into cash that can be utilized in the organization.  
+    
+    Args:
+        net_cash_provided_by_operating_activities (float or pd.Series): cash from operations
+        net_income (float or pd.Series): net income of the company
+
+    Returns:
+        float | pd.Series: The cfo to net income ratio.
+    """
+    return capital_expenditure / net_cash_provided_by_operating_activities

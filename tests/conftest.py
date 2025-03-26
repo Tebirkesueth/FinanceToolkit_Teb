@@ -338,12 +338,26 @@ def pytest_addoption(parser: Parser):
         default=False,
         help="run auto documentation tests",
     )
+    #*! added in finansueth fork as the record_mode was missing a CLI. 
+    parser.addoption(
+        "--record-mode",
+        action="store",
+        default="rewrite",  # other possible values: "all", "none", "once"
+        help="Set the record mode (rewrite, once, none, etc.)",
+    )
 
 
 @pytest.fixture(scope="session")  # type: ignore
 def rewrite_expected(request: SubRequest) -> bool:
     """Force rewriting of all expected data by : `record_stdout` and `recorder`."""
     return request.config.getoption("--rewrite-expected")
+
+#! Added in finansueth as record_mode was missing. 
+
+@pytest.fixture(scope="session")
+def record_mode(request: SubRequest) -> str:
+    """Provides the recording mode for stdout or data capture."""
+    return request.config.getoption("--record-mode")
 
 
 @pytest.fixture
@@ -367,6 +381,15 @@ def default_json_path(request: SubRequest) -> str:
 def record_stdout_markers(request: SubRequest) -> list[Mark]:
     """All markers applied to the certain test together with cassette names associated with each marker."""
     return list(request.node.iter_markers(name="record_stdout"))
+
+
+#*! This is added as the tests fail without disable_recording() and it cannot be found in the original package. 
+#*! Since it is only used for an if flag, standardize to return false. 
+
+@pytest.fixture
+def disable_recording() -> bool:
+    # Default to False to allow recording
+    return False
 
 
 @pytest.fixture(autouse=True)

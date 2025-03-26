@@ -6553,7 +6553,7 @@ class Ratios:
             trailing: int | None = None,
         ) -> pd.DataFrame:
             """
-            Calculates and collects all Zero-Max Ratios based on the provided data.
+            Calculates and collects all Ratios based on the provided data required for the finansueth project.
 
             Args:
                 rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
@@ -6563,10 +6563,10 @@ class Ratios:
                 E.g. when selecting 4 with quarterly data, the TTM is calculated.
 
             Returns:
-                pd.DataFrame: Zero-Max ratios calculated based on the specified parameters.
+                pd.DataFrame: Ratios calculated based on the specified parameters.
 
             Notes:
-            - The method calculates various zero-max ratios for each asset in the Toolkit instance.
+            - The method calculates various ratios for each asset in the Toolkit instance.
             - If `growth` is set to True, the method calculates the growth of the ratio values
             using the specified `lag`.
 
@@ -6577,62 +6577,64 @@ class Ratios:
 
             toolkit = Toolkit(["AAPL", "TSLA"], api_key="FINANCIAL_MODELING_PREP_KEY")
 
-            zeromax_ratios = toolkit.ratios.collect_zeromax_ratios()
+            finansueth_ratios = toolkit.ratios.collect_finansueth_ratios()
             ```
             """
+            # Initiate dict
             finansueth_ratios: dict = {}
-
+            
+            # Earning yield - ratio between earnings and price during the same period. 
             finansueth_ratios["Earning Yield"] = self.get_earnings_yield(trailing=trailing)
             finansueth_ratios["Zero-Max Earning Yield"] = self.get_zm_earnings_yield(trailing=trailing)
+            
+            # Free cash flow yield - ratio between free cash flow and price during the same period. 
             finansueth_ratios["Free Cash Flow Yield"] = self.get_free_cash_flow_yield(diluted=diluted, trailing=trailing)
             finansueth_ratios["Zero-Max Free Cash Flow Yield"] = self.get_zm_free_cash_flow_yield(diluted=diluted, trailing=trailing)
+            
+            # Dividend yield - ratio between dividend and price during the same period. 
             finansueth_ratios["Dividend Yield"] = self.get_dividend_yield(trailing=trailing)
             finansueth_ratios["Zero-Max Dividend Yield"] = self.get_zm_dividend_yield(trailing=trailing)
-            finansueth_ratios["EV-to-EBITDA"] = self.get_ev_to_ebitda_ratio(diluted=diluted, trailing=trailing)
             
+            # EBITDA ratios - EV and Net-Debt ratio to EBITDA. 
+            finansueth_ratios["EV-to-EBITDA"] = self.get_ev_to_ebitda_ratio(diluted=diluted, trailing=trailing)
             finansueth_ratios["Net-Debt to EBITDA Ratio"] = self.get_net_debt_to_ebitda_ratio(trailing=trailing)
             
+            # Margins - key operational margins. 
             finansueth_ratios["Gross Margin"] = self.get_gross_margin(trailing=trailing)
-            
             finansueth_ratios["Operating Margin"] = self.get_operating_margin(trailing=trailing)
-            
             finansueth_ratios["Net Profit Margin"] = self.get_net_profit_margin(trailing=trailing)
-            
             finansueth_ratios["EBITDA Margin"] = self.get_ebitda_margin(trailing=trailing)
             
+            # Operational ratios - expenditures, debt, and payout ratios. 
             finansueth_ratios["SGA-to-Revenue Ratio"] = self.get_sga_to_revenue_ratio(trailing=trailing)
-            
             finansueth_ratios["RND-to-Revenue Ratio"] = self.get_rnd_to_revenue_ratio(trailing=trailing)
-            
             finansueth_ratios["Dividend Payout Ratio"] = self.get_dividend_payout_ratio(trailing=trailing)
-            
             finansueth_ratios["Total Payout Ratio"] = self.get_total_payout_ratio(trailing=trailing)
-
             finansueth_ratios["Current Ratio"] = self.get_current_ratio(trailing=trailing)
-            
             finansueth_ratios["Quick Ratio"] = self.get_quick_ratio(trailing=trailing)
-            
             finansueth_ratios["Cash Ratio"] = self.get_cash_ratio(trailing=trailing)
-            
             finansueth_ratios["Stock Based Compensation Ratio"] = self.get_stock_based_compensation_ratio(trailing=trailing)
             
-            finansueth_ratios["CAPEX to D&A Ratio"] = self.get_capex_to_depreciation_amortization_ratio(trailing=trailing)
-                      
-            finansueth_ratios["Interest to Free Cash Flow Ratio"] = self.get_interest_to_free_cash_flow_ratio(trailing=trailing)
+            # Forecasting ratios - ratios required to perform forecasting of future business performance.
+            finansueth_ratios["CFO to NI Ratio"] = self.get_cfo_to_net_income_ratio(trailing=trailing)
+            finansueth_ratios["CAPEX to CFO Ratio"] = self.get_capex_to_cfo_ratio(trailing=trailing)
             
+            # Solvency ratios            
+            finansueth_ratios["CAPEX to D&A Ratio"] = self.get_capex_to_depreciation_amortization_ratio(trailing=trailing)
+            finansueth_ratios["Interest to Free Cash Flow Ratio"] = self.get_interest_to_free_cash_flow_ratio(trailing=trailing)
             finansueth_ratios["Debt-to-Equity Ratio"] = self.get_debt_to_equity_ratio(trailing=trailing)
             
+            # Profitability ratios
             finansueth_ratios["Return on Assets"] = self.get_return_on_assets(trailing=trailing)
-            
             finansueth_ratios["Return on Equity"] = self.get_return_on_equity(trailing=trailing)
-            
             finansueth_ratios["Return on Invested Capital"] = self.get_return_on_invested_capital(trailing=trailing)
-            
             finansueth_ratios["Return on Capital Employed"] = self.get_return_on_capital_employed(trailing=trailing)
             
+            # Growth ratios
             finansueth_ratios["Revenue Growth"] = self.get_revenue_growth(trailing=trailing, growth=True)
-            
+            finansueth_ratios["Zero-Max Revenue"] = self.get_zm_revenue(trailing=trailing)
             finansueth_ratios["Shares Outstanding Growth"] = self.get_shares_outstanding_growth(diluted=diluted, growth=True)
+            finansueth_ratios["Zero-Max Shares Outstanding"] = self.get_zm_shares_outstanding(trailing=trailing)
 
             self._finansueth_ratios = (
                 pd.concat(finansueth_ratios)
@@ -6899,6 +6901,118 @@ class Ratios:
             )
 
         return zm_dividend_yield.round(rounding if rounding else self._rounding)
+    
+    
+    @handle_errors
+    def get_zm_shares_outstanding(
+        self,
+        rounding: int | None = None,
+        growth: bool = False,
+        lag: int | list[int] = 1,
+        trailing: int | None = None,
+    ):
+        """
+        ...
+
+        The formula is as follows:
+        - Zero-Max Shares Outstanding = Shares Outstanding / Shares Outstanding (max)
+
+        Args:
+            rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
+            growth (bool, optional): Whether to calculate the growth of the ratios. Defaults to False.
+            lag (int | str, optional): The lag to use for the growth calculation. Defaults to 1.
+            trailing (int): Defines whether to select a trailing period.
+            E.g. when selecting 4 with quarterly data, the TTM is calculated.
+
+        Returns:
+            pd.DataFrame: zero-max shares outstanding values.
+
+        Notes:
+        - The method retrieves historical data and calculates the dividend yield ratio for each asset
+        in the Toolkit instance.
+        - If `growth` is set to True, the method calculates the growth of the dividend yield values
+        using the specified `lag`.
+
+        As an example:
+
+        ```python
+        from financetoolkit import Toolkit
+
+        toolkit = Toolkit(["AAPL", "TSLA"], api_key="FINANCIAL_MODELING_PREP_KEY")
+
+        zm_dividend_yield = toolkit.ratios.get_zm_shares_outstanding()
+        ```
+        """
+        shares_outstanding = self._income_statement.loc[:, "Weighted Average Shares Diluted", :]
+
+        zm_shares_outstanding = normalization_model.get_zm_shares_outstanding(
+            shares_outstanding.T.rolling(trailing).sum().T if trailing else shares_outstanding
+        )
+
+        if growth:
+            return calculate_growth(
+                zm_shares_outstanding,
+                lag=lag,
+                rounding=rounding if rounding else self._rounding,
+            )
+
+        return zm_shares_outstanding.round(rounding if rounding else self._rounding)
+
+    @handle_errors
+    def get_zm_revenue(
+        self,
+        rounding: int | None = None,
+        growth: bool = False,
+        lag: int | list[int] = 1,
+        trailing: int | None = None,
+    ):
+        """
+        ...
+
+        The formula is as follows:
+        - Zero-Max Revenue = Revenue / Revenue (max)
+
+        Args:
+            rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
+            growth (bool, optional): Whether to calculate the growth of the ratios. Defaults to False.
+            lag (int | str, optional): The lag to use for the growth calculation. Defaults to 1.
+            trailing (int): Defines whether to select a trailing period.
+            E.g. when selecting 4 with quarterly data, the TTM is calculated.
+
+        Returns:
+            pd.DataFrame: zero-max revenue values.
+
+        Notes:
+        - The method retrieves historical data and calculates the revenue ratio for each asset
+        in the Toolkit instance.
+        - If `growth` is set to True, the method calculates the growth of the revenue ratio values
+        using the specified `lag`.
+
+        As an example:
+
+        ```python
+        from financetoolkit import Toolkit
+
+        toolkit = Toolkit(["AAPL", "TSLA"], api_key="FINANCIAL_MODELING_PREP_KEY")
+
+        zm_revenue = toolkit.ratios.get_zm_revenue()
+        ```
+        """
+        revenue = self._income_statement.loc[:, "Revenue", :]
+
+        zm_revenue = normalization_model.get_zm_revenue(
+            revenue.T.rolling(trailing).sum().T if trailing else revenue
+        )
+
+        if growth:
+            return calculate_growth(
+                zm_revenue,
+                lag=lag,
+                rounding=rounding if rounding else self._rounding,
+            )
+
+        return zm_revenue.round(rounding if rounding else self._rounding)
+    
     
     @handle_errors
     def get_rnd_to_revenue_ratio(
@@ -7406,3 +7520,145 @@ class Ratios:
             )
 
         return capex_to_depreciation_amortization_ratio.round(rounding if rounding else self._rounding)
+    
+    
+    @handle_errors
+    def get_cfo_to_net_income_ratio(
+        self,
+        rounding: int | None = None,
+        growth: bool = False,
+        lag: int | list[int] = 1,
+        trailing: int | None = None,
+    ) -> pd.DataFrame:
+        """
+        ...
+
+        ...
+
+        The formula is as follows:
+
+        - CFO to Net Income = net_cash_provided_by_operating_activities / net_income
+
+        Args:
+            rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
+            growth (bool, optional): Whether to calculate the growth of the ratios. Defaults to False.
+            lag (int | str, optional): The lag to use for the growth calculation. Defaults to 1.
+            trailing (int): Defines whether to select a trailing period.
+            E.g. when selecting 4 with quarterly data, the TTM is calculated.
+
+        Returns:
+            pd.DataFrame: CFO to Netin Income ratio values.
+
+        Notes:
+        - The method retrieves historical data and calculates the ratio for each
+        asset in the Toolkit instance.
+        - If `growth` is set to True, the method calculates the growth of the ratio values
+        using the specified `lag`.
+
+        As an example:
+
+        ```python
+        from financetoolkit import Toolkit
+
+        toolkit = Toolkit(["AAPL", "TSLA"], api_key="FINANCIAL_MODELING_PREP_KEY")
+
+        cfo_to_net_income = toolkit.ratios.get_cfo_to_net_income_ratio()
+        ```
+        """
+        if trailing:
+            cfo_to_net_income = valuation_model.get_cfo_to_net_income_ratio(
+                self._cash_flow_statement.loc[:, "Cash Flow from Operations", :]
+                .T.rolling(trailing)
+                .sum()
+                .T,
+                self._income_statement.loc[:, "Net Income", :]
+                .T.rolling(trailing)
+                .sum()
+                .T,
+
+            )
+        else:
+            cfo_to_net_income = valuation_model.get_cfo_to_net_income_ratio(
+                self._cash_flow_statement.loc[:, "Cash Flow from Operations", :],
+                self._income_statement.loc[:, "Net Income", :],
+            )
+
+        if growth:
+            return calculate_growth(
+                cfo_to_net_income,
+                lag=lag,
+                rounding=rounding if rounding else self._rounding,
+            )
+
+        return cfo_to_net_income.round(rounding if rounding else self._rounding)
+    
+    
+    @handle_errors
+    def get_capex_to_cfo_ratio(
+        self,
+        rounding: int | None = None,
+        growth: bool = False,
+        lag: int | list[int] = 1,
+        trailing: int | None = None,
+    ) -> pd.DataFrame:
+        """
+        ...
+
+        ...
+
+        The formula is as follows:
+
+        - CAPEX to Net Income = capital_expenditures / net_cash_provided_by_operating_activities
+
+        Args:
+            rounding (int, optional): The number of decimals to round the results to. Defaults to 4.
+            growth (bool, optional): Whether to calculate the growth of the ratios. Defaults to False.
+            lag (int | str, optional): The lag to use for the growth calculation. Defaults to 1.
+            trailing (int): Defines whether to select a trailing period.
+            E.g. when selecting 4 with quarterly data, the TTM is calculated.
+
+        Returns:
+            pd.DataFrame: Ratio values.
+
+        Notes:
+        - The method retrieves historical data and calculates the ratio for each
+        asset in the Toolkit instance.
+        - If `growth` is set to True, the method calculates the growth of the ratio values
+        using the specified `lag`.
+
+        As an example:
+
+        ```python
+        from financetoolkit import Toolkit
+
+        toolkit = Toolkit(["AAPL", "TSLA"], api_key="FINANCIAL_MODELING_PREP_KEY")
+
+        capex_to_cfo = toolkit.ratios.get_capex_to_cfo_ratio()
+        ```
+        """
+        if trailing:
+            capex_to_cfo = valuation_model.get_capex_to_cfo_ratio(
+                self._cash_flow_statement.loc[:, "Property, Plant and Equipment", :]
+                .T.rolling(trailing)
+                .sum()
+                .T,
+                self._cash_flow_statement.loc[:, "Cash Flow from Operations", :]
+                .T.rolling(trailing)
+                .sum()
+                .T,
+
+            )
+        else:
+            capex_to_cfo = valuation_model.get_capex_to_cfo_ratio(
+                self._cash_flow_statement.loc[:, "Property, Plant and Equipment", :],
+                self._cash_flow_statement.loc[:, "Cash Flow from Operations", :],
+            )
+
+        if growth:
+            return calculate_growth(
+                capex_to_cfo,
+                lag=lag,
+                rounding=rounding if rounding else self._rounding,
+            )
+
+        return capex_to_cfo.round(rounding if rounding else self._rounding)

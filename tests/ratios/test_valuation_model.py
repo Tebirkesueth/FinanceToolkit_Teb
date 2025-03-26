@@ -202,3 +202,26 @@ def test_get_net_current_asset_value(recorder):
             total_current_liabilities=pd.Series([50, 30, 80, 20, 50]),
         )
     )
+
+
+# ====================================================================================================================
+# Below this line are functions added as part of the finansueth project fork
+# ====================================================================================================================
+
+
+def test_get_total_payout_ratio(recorder):
+    recorder.capture(
+        valuation_model.get_net_current_asset_value(
+            dividends=pd.Series([50, 40, 15, 40, 25]),
+            buybacks=pd.Series([25, 40, 15, 40, 50]),
+            free_cash_flow=pd.Series([100, 100, 100, 100, 100]),
+        )
+    )
+    
+
+def test_get_reinvestment_ratio(recorder):
+    recorder.capture(
+        valuation_model.get_reinvestment_ratio(
+            dividend_payout_ratio=pd.Series([0.5, 0.4, 0.15, 0.4, 0.25]),
+        )
+    )

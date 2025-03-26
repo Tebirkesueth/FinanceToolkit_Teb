@@ -1,0 +1,199 @@
+,,,2020,2021,2022,2023
+AAPL,Earning Yield,Lag 1,,0.2709,0.4796,0.0
+AAPL,Earning Yield,Lag 2,,,0.8805,0.4796
+AAPL,Earning Yield,Lag 3,,,,0.8805
+AAPL,Zero-Max Earning Yield,Lag 1,,0.2731,0.4795,0.0
+AAPL,Zero-Max Earning Yield,Lag 2,,,0.8836,0.4795
+AAPL,Zero-Max Earning Yield,Lag 3,,,,0.8836
+AAPL,Free Cash Flow Yield,Lag 1,,-0.0218,0.6815,0.0
+AAPL,Free Cash Flow Yield,Lag 2,,,0.6449,0.6815
+AAPL,Free Cash Flow Yield,Lag 3,,,,0.6449
+AAPL,Zero-Max Free Cash Flow Yield,Lag 1,,-0.0221,0.6829,0.0
+AAPL,Zero-Max Free Cash Flow Yield,Lag 2,,,0.6458,0.6829
+AAPL,Zero-Max Free Cash Flow Yield,Lag 3,,,,0.6458
+AAPL,Dividend Yield,Lag 1,,-0.755,0.4286,0.0
+AAPL,Dividend Yield,Lag 2,,,-0.65,0.4286
+AAPL,Dividend Yield,Lag 3,,,,-0.65
+AAPL,Zero-Max Dividend Yield,Lag 1,,-0.7543,0.4294,0.0
+AAPL,Zero-Max Dividend Yield,Lag 2,,,-0.6488,0.4294
+AAPL,Zero-Max Dividend Yield,Lag 3,,,,-0.6488
+AAPL,EV-to-EBITDA,Lag 1,,-0.1684,-0.334,0.0
+AAPL,EV-to-EBITDA,Lag 2,,,-0.4462,-0.334
+AAPL,EV-to-EBITDA,Lag 3,,,,-0.4462
+AAPL,Net-Debt to EBITDA Ratio,Lag 1,,-0.224,-0.0108,-0.1554
+AAPL,Net-Debt to EBITDA Ratio,Lag 2,,,-0.2324,-0.1646
+AAPL,Net-Debt to EBITDA Ratio,Lag 3,,,,-0.3517
+AAPL,Gross Margin,Lag 1,,0.0929,0.0366,0.0189
+AAPL,Gross Margin,Lag 2,,,0.1329,0.0562
+AAPL,Gross Margin,Lag 3,,,,0.1543
+AAPL,Operating Margin,Lag 1,,0.2331,0.0171,-0.0155
+AAPL,Operating Margin,Lag 2,,,0.2542,0.0013
+AAPL,Operating Margin,Lag 3,,,,0.2348
+AAPL,Net Profit Margin,Lag 1,,0.2377,-0.022,0.0
+AAPL,Net Profit Margin,Lag 2,,,0.2104,-0.022
+AAPL,Net Profit Margin,Lag 3,,,,0.2104
+AAPL,EBITDA Margin,Lag 1,,0.1668,0.007,-0.0991
+AAPL,EBITDA Margin,Lag 2,,,0.175,-0.0928
+AAPL,EBITDA Margin,Lag 3,,,,0.0586
+AAPL,SGA-to-Revenue Ratio,Lag 1,,-0.171,0.0582,0.022
+AAPL,SGA-to-Revenue Ratio,Lag 2,,,-0.1228,0.0815
+AAPL,SGA-to-Revenue Ratio,Lag 3,,,,-0.1034
+AAPL,RND-to-Revenue Ratio,Lag 1,,-0.123,0.1119,0.1712
+AAPL,RND-to-Revenue Ratio,Lag 2,,,-0.0249,0.3022
+AAPL,RND-to-Revenue Ratio,Lag 3,,,,0.142
+AAPL,Dividend Payout Ratio,Lag 1,,-0.1892,-0.144,0.0203
+AAPL,Dividend Payout Ratio,Lag 2,,,-0.3059,-0.1266
+AAPL,Dividend Payout Ratio,Lag 3,,,,-0.2918
+AAPL,Total Payout Ratio,Lag 1,,-0.0829,-0.1343,-0.1047
+AAPL,Total Payout Ratio,Lag 2,,,-0.2061,-0.2249
+AAPL,Total Payout Ratio,Lag 3,,,,-0.2892
+AAPL,Current Ratio,Lag 1,,-0.2119,-0.1816,0.1235
+AAPL,Current Ratio,Lag 2,,,-0.3551,-0.0806
+AAPL,Current Ratio,Lag 3,,,,-0.2754
+AAPL,Quick Ratio,Lag 1,,-0.2532,-0.2202,-0.1166
+AAPL,Quick Ratio,Lag 2,,,-0.4177,-0.3111
+AAPL,Quick Ratio,Lag 3,,,,-0.4856
+AAPL,Cash Ratio,Lag 1,,-0.4215,-0.3716,0.3503
+AAPL,Cash Ratio,Lag 2,,,-0.6365,-0.1514
+AAPL,Cash Ratio,Lag 3,,,,-0.5091
+AAPL,Stock Based Compensation Ratio,Lag 1,,-0.0859,-0.047,0.2084
+AAPL,Stock Based Compensation Ratio,Lag 2,,,-0.1289,0.1516
+AAPL,Stock Based Compensation Ratio,Lag 3,,,,0.0526
+AAPL,CFO to NI Ratio,Lag 1,,-0.218,0.1139,-0.0688
+AAPL,CFO to NI Ratio,Lag 2,,,-0.129,0.0372
+AAPL,CFO to NI Ratio,Lag 3,,,,-0.1889
+AAPL,CAPEX to CFO Ratio,Lag 1,,0.1755,-0.1765,-1.0
+AAPL,CAPEX to CFO Ratio,Lag 2,,,-0.032,-1.0
+AAPL,CAPEX to CFO Ratio,Lag 3,,,,-1.0
+AAPL,CAPEX to D&A Ratio,Lag 1,,0.486,-0.0184,-1.0
+AAPL,CAPEX to D&A Ratio,Lag 2,,,0.4586,-1.0
+AAPL,CAPEX to D&A Ratio,Lag 3,,,,-1.0
+AAPL,Interest to Free Cash Flow Ratio,Lag 1,,-0.273,-0.0772,-1.0
+AAPL,Interest to Free Cash Flow Ratio,Lag 2,,,-0.3291,-1.0
+AAPL,Interest to Free Cash Flow Ratio,Lag 3,,,,-1.0
+AAPL,Debt-to-Equity Ratio,Lag 1,,0.1488,0.1987,-0.3123
+AAPL,Debt-to-Equity Ratio,Lag 2,,,0.377,-0.1757
+AAPL,Debt-to-Equity Ratio,Lag 3,,,,-0.0531
+AAPL,Return on Assets,Lag 1,,,0.0107,-0.0303
+AAPL,Return on Assets,Lag 2,,,,-0.02
+AAPL,Return on Assets,Lag 3,,,,
+AAPL,Return on Equity,Lag 1,,,0.19,-0.02
+AAPL,Return on Equity,Lag 2,,,,0.1662
+AAPL,Return on Equity,Lag 3,,,,
+AAPL,Return on Invested Capital,Lag 1,,,0.071,0.0485
+AAPL,Return on Invested Capital,Lag 2,,,,0.1229
+AAPL,Return on Invested Capital,Lag 3,,,,
+AAPL,Return on Capital Employed,Lag 1,,0.549,0.2377,-0.1062
+AAPL,Return on Capital Employed,Lag 2,,,0.9172,0.1062
+AAPL,Return on Capital Employed,Lag 3,,,,0.7136
+AAPL,Revenue Growth,Lag 1,,,-0.7658,-1.3594
+AAPL,Revenue Growth,Lag 2,,,,-1.0842
+AAPL,Revenue Growth,Lag 3,,,,
+AAPL,Zero-Max Revenue,Lag 1,,0.3325,0.0779,-0.028
+AAPL,Zero-Max Revenue,Lag 2,,,0.4364,0.0478
+AAPL,Zero-Max Revenue,Lag 3,,,,0.3962
+AAPL,Shares Outstanding Growth,Lag 1,,,-0.1534,-0.0188
+AAPL,Shares Outstanding Growth,Lag 2,,,,-0.1693
+AAPL,Shares Outstanding Growth,Lag 3,,,,
+AAPL,Zero-Max Shares Outstanding,Lag 1,,-0.0378,-0.032,-0.0315
+AAPL,Zero-Max Shares Outstanding,Lag 2,,,-0.0686,-0.0625
+AAPL,Zero-Max Shares Outstanding,Lag 3,,,,-0.0979
+MSFT,Earning Yield,Lag 1,,-0.0865,0.6667,0.0
+MSFT,Earning Yield,Lag 2,,,0.5226,0.6667
+MSFT,Earning Yield,Lag 3,,,,0.5226
+MSFT,Zero-Max Earning Yield,Lag 1,,-0.0836,0.6642,0.0
+MSFT,Zero-Max Earning Yield,Lag 2,,,0.5251,0.6642
+MSFT,Zero-Max Earning Yield,Lag 3,,,,0.5251
+MSFT,Free Cash Flow Yield,Lag 1,,-0.1771,0.6278,0.0
+MSFT,Free Cash Flow Yield,Lag 2,,,0.3395,0.6278
+MSFT,Free Cash Flow Yield,Lag 3,,,,0.3395
+MSFT,Zero-Max Free Cash Flow Yield,Lag 1,,-0.1784,0.6276,0.0
+MSFT,Zero-Max Free Cash Flow Yield,Lag 2,,,0.3373,0.6276
+MSFT,Zero-Max Free Cash Flow Yield,Lag 3,,,,0.3373
+MSFT,Dividend Yield,Lag 1,,-0.2812,0.5507,0.0
+MSFT,Dividend Yield,Lag 2,,,0.1146,0.5507
+MSFT,Dividend Yield,Lag 3,,,,0.1146
+MSFT,Zero-Max Dividend Yield,Lag 1,,-0.2783,0.5344,0.0
+MSFT,Zero-Max Dividend Yield,Lag 2,,,0.1074,0.5344
+MSFT,Zero-Max Dividend Yield,Lag 3,,,,0.1074
+MSFT,EV-to-EBITDA,Lag 1,,0.2012,-0.4021,0.0
+MSFT,EV-to-EBITDA,Lag 2,,,-0.2818,-0.4021
+MSFT,EV-to-EBITDA,Lag 3,,,,-0.2818
+MSFT,Net-Debt to EBITDA Ratio,Lag 1,,-0.2486,-0.2627,-0.4901
+MSFT,Net-Debt to EBITDA Ratio,Lag 2,,,-0.446,-0.624
+MSFT,Net-Debt to EBITDA Ratio,Lag 3,,,,-0.7175
+MSFT,Gross Margin,Lag 1,,0.017,-0.0077,0.0076
+MSFT,Gross Margin,Lag 2,,,0.0091,-0.0001
+MSFT,Gross Margin,Lag 3,,,,0.0168
+MSFT,Operating Margin,Lag 1,,0.1231,0.0113,-0.0069
+MSFT,Operating Margin,Lag 2,,,0.1358,0.0043
+MSFT,Operating Margin,Lag 3,,,,0.128
+MSFT,Net Profit Margin,Lag 1,,0.1773,0.0066,-0.0692
+MSFT,Net Profit Margin,Lag 2,,,0.1851,-0.0631
+MSFT,Net Profit Margin,Lag 3,,,,0.103
+MSFT,EBITDA Margin,Lag 1,,0.0559,0.0165,-0.0211
+MSFT,EBITDA Margin,Lag 2,,,0.0733,-0.0049
+MSFT,EBITDA Margin,Lag 3,,,,0.0507
+MSFT,SGA-to-Revenue Ratio,Lag 1,,-0.1314,-0.0686,0.0236
+MSFT,SGA-to-Revenue Ratio,Lag 2,,,-0.191,-0.0466
+MSFT,SGA-to-Revenue Ratio,Lag 3,,,,-0.1719
+MSFT,RND-to-Revenue Ratio,Lag 1,,-0.0854,0.0032,0.038
+MSFT,RND-to-Revenue Ratio,Lag 2,,,-0.0824,0.0414
+MSFT,RND-to-Revenue Ratio,Lag 3,,,,-0.0475
+MSFT,Dividend Payout Ratio,Lag 1,,-0.1201,-0.0543,0.1958
+MSFT,Dividend Payout Ratio,Lag 2,,,-0.168,0.1308
+MSFT,Dividend Payout Ratio,Lag 3,,,,-0.0051
+MSFT,Total Payout Ratio,Lag 1,,-0.0712,-0.0028,-0.094
+MSFT,Total Payout Ratio,Lag 2,,,-0.0738,-0.0965
+MSFT,Total Payout Ratio,Lag 3,,,,-0.1608
+MSFT,Current Ratio,Lag 1,,-0.1732,-0.142,-0.0086
+MSFT,Current Ratio,Lag 2,,,-0.2906,-0.1494
+MSFT,Current Ratio,Lag 3,,,,-0.2968
+MSFT,Quick Ratio,Lag 1,,-0.1852,-0.1748,-0.0201
+MSFT,Quick Ratio,Lag 2,,,-0.3276,-0.1913
+MSFT,Quick Ratio,Lag 3,,,,-0.3411
+MSFT,Cash Ratio,Lag 1,,-0.2214,-0.2505,-0.0304
+MSFT,Cash Ratio,Lag 2,,,-0.4165,-0.2733
+MSFT,Cash Ratio,Lag 3,,,,-0.4342
+MSFT,Stock Based Compensation Ratio,Lag 1,,-0.0676,0.0569,0.4028
+MSFT,Stock Based Compensation Ratio,Lag 2,,,-0.0145,0.4826
+MSFT,Stock Based Compensation Ratio,Lag 3,,,,0.3824
+MSFT,CFO to NI Ratio,Lag 1,,-0.0859,-0.0227,-0.0113
+MSFT,CFO to NI Ratio,Lag 2,,,-0.1066,-0.0337
+MSFT,CFO to NI Ratio,Lag 3,,,,-0.1167
+MSFT,CAPEX to CFO Ratio,Lag 1,,0.0558,-0.0015,0.196
+MSFT,CAPEX to CFO Ratio,Lag 2,,,0.0542,0.1943
+MSFT,CAPEX to CFO Ratio,Lag 3,,,,0.2609
+MSFT,CAPEX to D&A Ratio,Lag 1,,0.4624,-0.0639,0.2276
+MSFT,CAPEX to D&A Ratio,Lag 2,,,0.3689,0.1491
+MSFT,CAPEX to D&A Ratio,Lag 3,,,,0.6805
+MSFT,Interest to Free Cash Flow Ratio,Lag 1,,-0.2705,-0.2416,0.0442
+MSFT,Interest to Free Cash Flow Ratio,Lag 2,,,-0.4468,-0.2081
+MSFT,Interest to Free Cash Flow Ratio,Lag 3,,,,-0.4223
+MSFT,Debt-to-Equity Ratio,Lag 1,,-0.2046,-0.2292,-0.2096
+MSFT,Debt-to-Equity Ratio,Lag 2,,,-0.3869,-0.3907
+MSFT,Debt-to-Equity Ratio,Lag 3,,,,-0.5154
+MSFT,Return on Assets,Lag 1,,,0.0788,-0.1052
+MSFT,Return on Assets,Lag 2,,,,-0.0347
+MSFT,Return on Assets,Lag 3,,,,
+MSFT,Return on Equity,Lag 1,,,0.0015,-0.1767
+MSFT,Return on Equity,Lag 2,,,,-0.1754
+MSFT,Return on Equity,Lag 3,,,,
+MSFT,Return on Invested Capital,Lag 1,,,0.0651,-0.1016
+MSFT,Return on Invested Capital,Lag 2,,,,-0.0431
+MSFT,Return on Invested Capital,Lag 3,,,,
+MSFT,Return on Capital Employed,Lag 1,,0.2334,0.0614,-0.0676
+MSFT,Return on Capital Employed,Lag 2,,,0.3092,-0.0103
+MSFT,Return on Capital Employed,Lag 3,,,,0.2207
+MSFT,Revenue Growth,Lag 1,,,0.0245,-0.6169
+MSFT,Revenue Growth,Lag 2,,,,-0.6075
+MSFT,Revenue Growth,Lag 3,,,,
+MSFT,Zero-Max Revenue,Lag 1,,0.1753,0.1795,0.0688
+MSFT,Zero-Max Revenue,Lag 2,,,0.3863,0.2607
+MSFT,Zero-Max Revenue,Lag 3,,,,0.4817
+MSFT,Shares Outstanding Growth,Lag 1,,,-0.0918,0.0112
+MSFT,Shares Outstanding Growth,Lag 2,,,,-0.0816
+MSFT,Shares Outstanding Growth,Lag 3,,,,
+MSFT,Zero-Max Shares Outstanding,Lag 1,,-0.0098,-0.0089,-0.0091
+MSFT,Zero-Max Shares Outstanding,Lag 2,,,-0.0186,-0.0179
+MSFT,Zero-Max Shares Outstanding,Lag 3,,,,-0.0275
