@@ -521,4 +521,4 @@ def get_capex_to_cfo_ratio(
     Returns:
         float | pd.Series: The cfo to net income ratio.
     """
-    return capital_expenditure / net_cash_provided_by_operating_activities
+    return abs(capital_expenditure) / net_cash_provided_by_operating_activities
